@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html><head><title>🤖 CC CHECKER/KILLER v3.0 - 100% HIT</title><style>body{font-family:monospace;background:#000;color:#00ff00;padding:20px;max-width:700px;margin:auto;}h1{text-align:center;border-bottom:2px #00ff00 solid;padding-bottom:10px;}.tabs{display:flex;background:#111;border:1px #00ff00 solid;}.tab{padding:15px;cursor:pointer;flex:1;text-align:center;border-right:1px #00ff00 solid;}.tab.active{background:#00ff00;color:#000;}.tab-content{display:none;padding:20px;background:#001100;border:1px #00ff00 solid;margin-top:10px;}textarea,button{width:100%;padding:15px;margin:10px 0;box-sizing:border-box;font-family:monospace;font-size:16px;background:#111;color:#00ff00;border:1px #00ff00 solid;}button{background:#f00;color:#fff;border:none;font-weight:bold;cursor:pointer;}#result{max-height:400px;overflow:auto;}.live{color:#00ff00;font-weight:bold;}.die{color:#ff0000;}.stats{background:#110000;padding:10px;margin:10px 0;}</style></head>
+<body>
+<h1>🤖 AUTO CC CHECKER & KILLER v3.0<br><small>100% Hit | 5 Gateways | 50+ SKs | 500+ Proxies | [binx.vip](https://binx.vip)</small></h1>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('check')">CHECK (Validate)</div>
+  <div class="tab" onclick="switchTab('kill')">KILL (Burn)</div>
+</div>
+<div id="check-content" class="tab-content">
+  <form id="check-form">
+    <textarea id="check-number" rows="6" placeholder="Paste bulk CCs:\n4242424242424242|12|30|123 (LIVE)\n4000000000000002|12|30|123 (DIE)">4242424242424242|12|30|123\n4000000000000002|12|30|123</textarea>
+    <button type="submit">🔍 CHECK LIVE/DEAD</button>
+  </form>
+  <div id="check-result" class="stats">Ready - 100% Accurate Validate</div>
+</div>
+<div id="kill-content" class="tab-content">
+  <form id="kill-form">
+    <textarea id="kill-number" rows="6" placeholder="Paste CCs to KILL:\n4532011122334455|12|30|123">4532011122334455|12|30|123</textarea>
+    <button type="submit">💀 KILL LIVE CCs</button>
+  </form>
+  <div id="kill-result" class="stats">Ready - Auto Burn 7x Holds</div>
+</div>
+
+<script>
+function switchTab(mode) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+  document.getElementById(mode + '-content').style.display = 'block';
+}
+
+async function process(mode) {
+  const textarea = document.getElementById(mode + '-number');
+  const result = document.getElementById(mode + '-result');
+  const btn = event.target.querySelector('button');
+  btn.textContent = '⏳ PROCESSING...';
+  const fd = new FormData();
+  fd.append('number', textarea.value);
+  try {
+    const res = await fetch(`/api/${mode}`, {method:'POST', body:fd});
+    const data = await res.json();
+    let html = `<div class="stats">Total: ${data.total} | LIVE: ${data.live} | DIE: ${data.total-data.live}</div>`;
+    data.results.forEach(r => {
+      html += `<div class="${r.status}"><strong>${r.cc}</strong>: ${r.status.toUpperCase()} - ${r.msg}<br>BIN: ${r.binInfo}</div>`;
+    });
+    result.innerHTML = html;
+  } catch { result.innerHTML += '<div class="die">Error - Retry</div>'; }
+  btn.textContent = '✅ DONE';
+}
+
+document.getElementById('check-form').onsubmit = (e) => {e.preventDefault(); process('check');};
+document.getElementById('kill-form').onsubmit = (e) => {e.preventDefault(); process('kill');};
+</script>
+</body></html>
+
