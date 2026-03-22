@@ -1,5 +1,5 @@
 name = "cc-killer-v3"
-main = "function/api/*"
+main = "function/api/check.js"
 compatibility_date = "2026-03-22"
 
 [env.production.vars]
