@@ -1,7 +1,7 @@
 name = "cc-killer-v3"
-compatibility_date = "2024-10-01"
-pages_build_output_dir = "./public"
+main = "src/index.js"
+compatibility_date = "2026-03-22"
 
-[[routes]]
-pattern = "/functions/api/*"
-usage_model = "bundled"
+[env.production.vars]
+PROXY_API = "https://api.proxyscrape.com/v2/?request=get&protocol=http&timeout=5000&country=all"
+BIN_API = "https://lookup.binlist.net/"
