@@ -1,0 +1,7 @@
+name = "cc-killer-v3"
+compatibility_date = "2024-10-01"
+pages_build_output_dir = "./public"
+
+[[routes]]
+pattern = "/api/*"
+usage_model = "bundled"
