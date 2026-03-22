@@ -1,7 +1,0 @@
-name = "cc-killer-v3"
-main = "function/api/check.js"
-compatibility_date = "2026-03-22"
-
-[env.production.vars]
-PROXY_API = "https://api.proxyscrape.com/v2/?request=get&protocol=http&timeout=5000&country=all"
-BIN_API = "https://lookup.binlist.net/"
