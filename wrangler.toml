@@ -3,5 +3,5 @@ compatibility_date = "2024-10-01"
 pages_build_output_dir = "./public"
 
 [[routes]]
-pattern = "/api/*"
+pattern = "/functions/api/*"
 usage_model = "bundled"
