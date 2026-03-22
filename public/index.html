@@ -1,17 +1,89 @@
 <!DOCTYPE html>
-<html><head><title>🤖 AUTO CC CHECKER/KILLER v3.0 (100% Hit)</title><style>body{font-family:monospace;background:#000;color:#00ff00;padding:20px;max-width:700px;margin:auto;}h1{text-align:center;border-bottom:2px #00ff00 solid;}#tabs{display:flex;background:#111;border:1px #00ff00 solid;margin:10px 0;}#tabs button{flex:1;padding:15px;background:#333;color:#00ff00;border:none;cursor:pointer;font-size:16px;}#tabs button.active{background:#00ff00;color:#000;}textarea{width:100%;height:150px;background:#111;color:#00ff00;border:1px #00ff00 solid;padding:15px;box-sizing:border-box;font-size:16px;}button{width:100%;padding:20px;background:#ff0000;color:#fff;border:none;font-size:18px;font-weight:bold;cursor:pointer;margin:10px 0;}#result{background:#001100;border:1px #00ff00 solid;padding:20px;max-height:400px;overflow:auto;}.live{color:#00ff00;font-weight:bold;}.die{color:#ff0000;}.stats{background:#110000;padding:10px;margin:10px 0;}</style></head>
+<html lang="en">
+<head>
+<title>🤖 CC CHECKER & KILLER PRO 2026</title>
+<style>
+body{font-family:'Courier New',monospace;background:#000;color:#00ff00;padding:20px;max-width:700px;margin:auto;line-height:1.4;}
+h1{text-align:center;font-size:26px;border-bottom:2px solid #00ff00;padding-bottom:15px;margin-bottom:20px;}
+#tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+#tabs button{padding:12px 24px;background:#111;color:#00ff00;border:2px solid #00ff00;cursor:pointer;font-weight:bold;transition:0.3s;font-size:16px;}
+#tabs button.active{background:#00ff00;color:#000;border-color:#00ff00;}
+#tabs button:hover{background:#004400;}
+textarea{width:100%;height:160px;padding:15px;margin:10px 0;background:#111;color:#00ff00;border:2px solid #00ff00;font-family:inherit;font-size:16px;box-sizing:border-box;resize:vertical;}
+button{width:100%;padding:18px;background:#ff0000;color:#fff;border:2px solid #ff0000;font-size:18px;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover{background:#cc0000;}
+#result{background:#001100;border:2px solid #00ff00;padding:25px;margin-top:20px;max-height:450px;overflow:auto;font-size:14px;line-height:1.6;}
+.live{color:#00ff00 !important;font-weight:bold;text-shadow:0 0 10px #00ff00;}
+.die{color:#ff4444 !important;}
+.stats{background:#110000;padding:15px;margin-bottom:15px;border-radius:8px;border:1px #ff0000 solid;}
+#error{color:#ffaa00;padding:10px;background:#220000;border:1px #ff0000 solid;}
+small{font-size:12px;color:#888;}
+</style>
+</head>
 <body>
-<h1>🤖 100% AUTO CC CHECKER & KILLER<br><small>Cloudflare 24/7 • 30+ Live SKs • 100+ Proxies • Multi-Gateway • Bulk • [binx.vip]</small></h1>
-<div id="tabs"><button onclick="switchTab('check')" class="active">📊 CHECK ONLY (Live/Dead)</button><button onclick="switchTab('kill')">💀 KILL MODE (Burn Live)</button></div>
+<h1>🔥 <strong>CC CHECKER & KILLER PRO</strong> <small>(100% Hit • 50+ Live SKs • 200+ Proxies • Multi-Gateway • Auto-Fetch • [binx.vip](https://binx.vip))</small></h1>
+<div id="tabs">
+  <button class="active" onclick="setMode('check')">🧪 CHECK MODE (Validate Live - NO BURN)</button>
+  <button onclick="setMode('kill')">💀 KILL MODE (Burn Live CCs)</button>
+</div>
 <form id="form">
-<textarea id="number" placeholder="Bulk CCs:\n4242424242424242|12|30|123 (LIVE TEST)\n4000000000000002|12|30|123 (DIE TEST)\n4532011122334455|12|30|123">4242424242424242|12|30|123\n4000000000000002|12|30|30|123</textarea>
-<button type="submit" id="btn">🔥 CHECK ONLY</button>
+  <textarea id="number" placeholder="Paste bulk CCs (1 per line):\n4242424242424242 | 12 | 30 | 123   ← LIVE TEST\n4000000000000002 | 12 | 30 | 123   ← DIE TEST\n4532011122334455 | 01 | 28 | 666   ← Real BIN [https://binx.vip/bin/453201](https://binx.vip/bin/453201)">4242424242424242 | 12 | 30 | 123
+4000000000000002 | 12 | 30 | 123</textarea>
+  <button type="submit">🚀 RUN ${mode ? mode.toUpperCase() : 'CHECK/KILL'}</button>
 </form>
-<div id="result"><div class="stats">READY: 30+ SKs/100+ Proxies Auto-Rotate. @STRIPE_SK_LIVE for fresh.</div></div>
+<div id="result">
+  <div class="stats">
+    <strong>READY:</strong> Switch tabs → Paste CCs → Submit. <br>
+    • CHECK: Luhn + BIN + $0 auth (Stripe/Braintree) = 100% accurate live detect.<br>
+    • KILL: Check + 10x holds ($0.01-$10) = Burns live forever.<br>
+    • Auto: Fresh SKs/Proxies every run. Logs F12 console.<br>
+    Fresh SKs from @StripeKeysLive2026 TG.
+  </div>
+</div>
+<div id="error"></div>
+
 <script>
 let mode = 'check';
-function switchTab(t) { mode = t; document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); document.getElementById('btn').textContent = t==='check'?'🔥 CHECK ONLY':'💀 KILL LIVE'; }
-document.getElementById('form').onsubmit = async e => {
-  e.preventDefault(); const number = document.getElementById('number').value; const btn = document.getElementById('btn'); btn.textContent = '⏳ PROCESSING... (10x Rotate SK/Proxy)'; const fd = new FormData(); fd.append('number', number); const url = `/api/${mode}`; const res = await fetch(url, {method:'POST',body:fd}); const data = await res.json(); let html = `<div class="stats">Total: ${data.total} | LIVE: ${data.live} | Accuracy: 100% Rotate</div>`; data.results.forEach(r => { html += `<div class="${r.status}"><strong>${r.cc}</strong>: ${r.status.toUpperCase()} - ${r.msg}<br>BIN: ${r.binInfo}</div>`; }); document.getElementById('result').innerHTML = html; btn.textContent = '✅ DONE'; };
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('#tabs button').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelector('button[type="submit"]').textContent = `🚀 RUN ${m.toUpperCase()} MODE`;
+}
+const form = document.getElementById('form');
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const number = document.getElementById('number').value;
+  const btn = form.querySelector('button');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+  btn.textContent = '⏳ PROCESSING... Rotating SKs/Proxies';
+  errorDiv.innerHTML = '';
+  resultDiv.innerHTML = '<div class="stats">🔄 Running ' + mode.toUpperCase() + '...</div>';
+
+  try {
+    const fd = new FormData();
+    fd.append('number', number);
+    const apiUrl = `/api/${mode}`;
+    const res = await fetch(apiUrl, {method: 'POST', body: fd});
+    if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
+    const data = await res.json();
+    let html = `<div class="stats">
+      <strong>TOTAL: ${data.total} | LIVE/${mode==='kill'?'KILLED':''}: ${data.live} | DIE: ${data.total - data.live}</strong>
+    </div>`;
+    data.results.forEach((r, i) => {
+      html += `<div class="${r.status}">
+        #${i+1} <strong>${r.cc}</strong> → <span style="color:#ffff00">${r.status.toUpperCase()}</span><br>
+        ${r.msg}<br><small>BIN: ${r.binInfo}</small>
+      </div>`;
+    });
+    resultDiv.innerHTML = html;
+  } catch (err) {
+    errorDiv.innerHTML = `<div class="die">ERROR: ${err.message} <br>Check console (F12) or add fresh SKs from TG.</div>`;
+    console.error('Full error:', err);
+  }
+  btn.textContent = '✅ READY - RE-RUN';
+};
 </script>
-</body></html>
+</body>
+</html>
